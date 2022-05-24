@@ -29,6 +29,10 @@ class Array {
         // Return a pointer to the underlying array.
         const T* data() const { return elements_; };
 
+        // Clear the contents of the array. This resets the size of the array
+        // to 0 and retains the array's existing capacity.
+        void clear() { size_ = 0; };
+
         // Return the element at the given index.
         T& operator[](size_t i) { return elements_[i]; }
 
@@ -54,7 +58,9 @@ void Array<T>::reserve(size_t capacity) {
     }
 
     T* new_elements = new T[capacity];
-    memcpy(new_elements, elements_, size_);
+    for (size_t i = 0; i < size_; i++) {
+        new_elements[i] = elements_[i];
+    }
     delete[] elements_;
     elements_ = new_elements;
     capacity_ = capacity;
